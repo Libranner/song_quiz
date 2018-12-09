@@ -20,6 +20,7 @@ import android.widget.TextView
 import es.usj.song_quiz.models.Game
 import es.usj.song_quiz.services.ApiConstants
 import es.usj.song_quiz.services.AsyncTaskJsonHandler
+import es.usj.song_quiz.services.DownloadHandler
 import org.json.JSONArray
 import java.io.File
 import java.util.*
@@ -32,10 +33,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //startGame()
+
 
         val path = "https://firebasestorage.googleapis.com/v0/b/test-5596f.appspot.com/o/sound.mp3?" +
                 "alt=media&token=06c5e2f3-8217-4bdc-b2ab-6741b9dc4506"
+
+
+        startGame()
+        /*
 
         val directory = this.filesDir
         val file = File(directory, "sound.mp3")
@@ -43,10 +48,15 @@ class MainActivity : AppCompatActivity() {
             Log.e("asdas: ", "asasasasasa")
         }
 
-        val c = getTempFile(this, path)
-
+        val c = Uri.parse(path)?.lastPathSegment?.let { filename ->
+            File(this.filesDir, filename)
+        }
 
         val file2 = File(directory, "sound.mp3")
+
+        */
+
+        //DownloadHandler(this.filesDir).execute(path)
 
     }
 
@@ -73,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
         if (songs.size > 0) {
             songs.shuffle()
-            game = Game(Calendar.getInstance().time, songs.toTypedArray())
+            game = Game(Calendar.getInstance().time, songs.toTypedArray(), this.filesDir)
             game.start()
             setOptions(game.possibleAnswers())
 
@@ -87,11 +97,6 @@ class MainActivity : AppCompatActivity() {
             loadingError()
         }
     }
-
-    private fun getTempFile(context: Context, url: String): File? =
-            Uri.parse(url)?.lastPathSegment?.let { filename ->
-                File(context.filesDir, filename)
-            }
 
     private fun loadingError() {
         Toast.makeText(this, getString(R.string.problem_loading), Toast.LENGTH_LONG).show()

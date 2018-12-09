@@ -1,10 +1,9 @@
 package es.usj.song_quiz.models
 
-import android.media.MediaPlayer
-import android.util.Log
-import android.widget.Toast
 import es.usj.song_quiz.extensions.random
-import java.io.IOException
+import es.usj.song_quiz.services.ApiConstants
+import es.usj.song_quiz.services.DownloadHandler
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -18,10 +17,12 @@ class Game {
     private var player: MusicPlayer
     val numberOfWrongAnswers = 2
     var gameOver = false
+    var directory: File
 
-    constructor(startDate: Date, songs: Array<Song>) {
+    constructor(startDate: Date, songs: Array<Song>, directory: File) {
         this.startDate = startDate
         this.player = MusicPlayer(songs)
+        this.directory = directory
     }
 
     val currentSong: Song?
@@ -30,7 +31,7 @@ class Game {
         }
 
     fun start() {
-        player.nextSong()
+        playNextSong()
     }
 
     fun currentDuration() : Int {
@@ -42,9 +43,31 @@ class Game {
             return
 
         val song = player.nextSong()
-        if(song == null) {
+        if(song != null) {
+            playSongFromFile(song.filename)
+        }
+        else {
             gameOver = true
         }
+    }
+
+    private fun playSongFromFile(filename: String) {
+        player.stop()
+
+        //val file = File(directory, filename)
+        val file = File(directory, "sound.mp3")
+        if (file.exists()) {
+            player.playSong(file.absolutePath)
+        }
+        else {
+            //TODO: Contruct real path
+            val path = "$ApiConstants.baseUrl/$filename"
+            DownloadHandler(directory, ::fileHandler).execute(filename)
+        }
+    }
+
+    private fun fileHandler(filename: String?) {
+        if(filename != null) playSongFromFile(filename)
     }
 
     fun possibleAnswers(): Array<Song> {
