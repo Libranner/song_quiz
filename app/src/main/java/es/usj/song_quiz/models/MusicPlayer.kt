@@ -2,7 +2,8 @@ package es.usj.song_quiz.models
 
 import android.media.MediaPlayer
 import android.util.Log
-import android.widget.Toast
+import es.usj.song_quiz.services.ApiConstants
+import es.usj.song_quiz.services.DownloadHandler
 import java.io.IOException
 
 /**
@@ -29,10 +30,16 @@ class MusicPlayer {
     private fun playSong(song: Song) {
         try {
             mp = MediaPlayer()
-            mp.setDataSource(song.path)
+            //TODO: Pass real path:
+            val path = "https://firebasestorage.googleapis.com/v0/b/test-5596f.appspot.com/o/sound.mp3?" +
+                    "alt=media&token=06c5e2f3-8217-4bdc-b2ab-6741b9dc4506"
+
+            DownloadHandler(song.fileName).execute(path)
+            val url = "${ApiConstants.baseUrl}/${song.fileName}"
+
+            mp.setDataSource(path)
             mp.prepare()
             mp.start()
-            //TODO: tvTime.post(mUpdateTime)
         } catch (e: IOException) {
             Log.e("Error: ", e.toString())
         }

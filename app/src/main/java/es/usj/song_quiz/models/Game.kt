@@ -69,7 +69,7 @@ class Game {
         return answers.toTypedArray()
     }
 
-    fun checkSong(selectedId: String) : Boolean {
+    fun checkSong(selectedId: Int) : Boolean {
         if (currentSong?.id == selectedId) {
             calculatePoints()
             return true
@@ -90,5 +90,10 @@ class Game {
         }
 
         totalPoints += (timePoints * 100).toInt()
+    }
+
+    fun stop() {
+        finishDate = Calendar.getInstance().time
+        player.mp.stop()
     }
 }

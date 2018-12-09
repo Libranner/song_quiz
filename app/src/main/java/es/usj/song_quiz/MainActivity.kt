@@ -1,7 +1,13 @@
 package es.usj.song_quiz
 
+import android.app.DownloadManager
+import android.app.Service
+import android.content.Context
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.View
 import es.usj.song_quiz.models.Song
 import kotlinx.android.synthetic.main.activity_main.*
@@ -10,71 +16,123 @@ import kotlin.collections.ArrayList
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import es.usj.song_quiz.models.Game
+import es.usj.song_quiz.services.ApiConstants
+import es.usj.song_quiz.services.AsyncTaskJsonHandler
+import org.json.JSONArray
+import java.io.File
 import java.util.*
 import kotlin.concurrent.scheduleAtFixedRate
 
 class MainActivity : AppCompatActivity() {
-
-    private var songs: MutableList<Song> = ArrayList()
-    private var game : Game? = null
+    private lateinit var game : Game
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val path = "https://firebasestorage.googleapis.com/v0/b/test-5596f.appspot.com/o/sound.mp3?alt=media&token=06c5e2f3-8217-4bdc-b2ab-6741b9dc4506"
-        songs.add(Song("1","Cancion 1", "Juan Perez 1", path))
-        songs.add(Song("2","Cancion 2", "Juan Perez 2", path))
-        songs.add(Song("3","Cancion 3", "Juan Perez 3", path))
-        songs.add(Song("4","Cancion 4", "Juan Perez 4", path))
-        songs.add(Song("5","Cancion 5", "Juan Perez 5", path))
-        songs.add(Song("6","Cancion 6", "Juan Perez 6", path))
+        //startGame()
 
-        game = Game(Calendar.getInstance().time, songs.toTypedArray())
-        game!!.start()
+        val path = "https://firebasestorage.googleapis.com/v0/b/test-5596f.appspot.com/o/sound.mp3?" +
+                "alt=media&token=06c5e2f3-8217-4bdc-b2ab-6741b9dc4506"
 
-        setOptions(game!!.possibleAnswers())
+        val directory = this.filesDir
+        val file = File(directory, "sound.mp3")
+        if (file.exists()) {
+            Log.e("asdas: ", "asasasasasa")
+        }
 
-        Timer("timer", true).scheduleAtFixedRate(0,1000) {
-            runOnUiThread {
-                val c = milliSecondsToTimer(game!!.currentDuration().toLong())
-                tvTime.text = milliSecondsToTimer(game!!.currentDuration().toLong())
+        val c = getTempFile(this, path)
+
+
+        val file2 = File(directory, "sound.mp3")
+
+    }
+
+    private fun startGame() {
+        AsyncTaskJsonHandler(::handlerJson).execute(ApiConstants.baseUrl)
+    }
+
+    private fun handlerJson(result: String?) {
+        val jsonArray = JSONArray(result)
+
+        val songs = ArrayList<Song>()
+        var x = 0
+        while (x < jsonArray.length()) {
+            val jsonObject =  jsonArray.getJSONObject(x)
+
+            songs.add(Song(
+                    jsonObject.getInt("id"),
+                    jsonObject.getString("name"),
+                    jsonObject.getString("author"),
+                    jsonObject.getString("file")
+                    ))
+            x++
+        }
+
+        if (songs.size > 0) {
+            songs.shuffle()
+            game = Game(Calendar.getInstance().time, songs.toTypedArray())
+            game.start()
+            setOptions(game.possibleAnswers())
+
+            Timer("timer", true).scheduleAtFixedRate(0,1000) {
+                runOnUiThread {
+                    tvTime.text = milliSecondsToTimer(game.currentDuration().toLong())
+                }
             }
+        }
+        else {
+            loadingError()
         }
     }
 
+    private fun getTempFile(context: Context, url: String): File? =
+            Uri.parse(url)?.lastPathSegment?.let { filename ->
+                File(context.filesDir, filename)
+            }
+
+    private fun loadingError() {
+        Toast.makeText(this, getString(R.string.problem_loading), Toast.LENGTH_LONG).show()
+    }
+
     private fun onOptionClick(view: View) {
-        if (game!!.gameOver) {
-            Toast.makeText(this, "GAME OVER", Toast.LENGTH_LONG).show()
+        if (game.gameOver) {
+            showGameOverScreen()
             return
         }
 
-        if (game!!.checkSong(view.tag.toString())) {
+        if (game.checkSong(view.tag as Int)) {
             Toast.makeText(this, "Right answer", Toast.LENGTH_SHORT).show()
         }
         else {
             Toast.makeText(this, "Wrong answer! You dumb bastard!", Toast.LENGTH_SHORT).show()
         }
-        tvScore.text = game!!.totalPoints.toString()
+        tvScore.text = game.totalPoints.toString()
         continueGame()
     }
 
     private fun continueGame() {
-        game!!.playNextSong()
+        game.playNextSong()
 
-        if (game!!.gameOver) {
-            Toast.makeText(this, "GAME OVER", Toast.LENGTH_LONG).show()
+        if (game.gameOver) {
+            game.stop()
         } else {
-            setOptions(game!!.possibleAnswers())
+            setOptions(game.possibleAnswers())
         }
+    }
+
+    private fun showGameOverScreen() {
+        //TODO: Game Over Screen
+        Toast.makeText(this, "GAME OVER", Toast.LENGTH_LONG).show()
     }
 
     private fun setOptions(songs: Array<Song>) {
         if ((linearLayout as LinearLayout).childCount > 0)
             (linearLayout as LinearLayout).removeAllViews()
 
-        Toast.makeText(this, game!!.currentSong!!.artistName, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, game.currentSong!!.artistName, Toast.LENGTH_LONG).show()
 
         for(i in 0 until songs.size) {
             val btnOption = Button(this)
@@ -89,28 +147,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun milliSecondsToTimer(milliseconds: Long): String {
-        var finalTimerString = ""
-        var secondsString = ""
+        var result = ""
+        var secondsString: String
 
-        // Convert total duration into time
         val hours = (milliseconds / (1000 * 60 * 60)).toInt()
         val minutes = (milliseconds % (1000 * 60 * 60)).toInt() / (1000 * 60)
         val seconds = (milliseconds % (1000 * 60 * 60) % (1000 * 60) / 1000).toInt()
-        // Add hours if there
+
         if (hours > 0) {
-            finalTimerString = hours.toString() + ":"
+            result = hours.toString() + ":"
         }
 
-        // Prepending 0 to seconds if it is one digit
-        if (seconds < 10) {
-            secondsString = "0" + seconds
-        } else {
-            secondsString = "" + seconds
+        secondsString = when {
+            seconds < 10 -> "0$seconds"
+            else -> "" + seconds
         }
 
-        finalTimerString = finalTimerString + minutes + ":" + secondsString
+        result = "$result$minutes:$secondsString"
 
-        // return timer string
-        return finalTimerString
+        return result
     }
 }
+
