@@ -16,17 +16,14 @@ class DownloadHandler(private val filesDir: File, private val fileHandler: (file
     override fun doInBackground(vararg params: String?): String? {
         try {
             val file = Uri.parse(params[0])?.lastPathSegment?.let { filename ->
-                //TODO: Use real file name
-                File(filesDir, "sound.mp3")
+                File(filesDir, filename)
             }
 
             if(file != null) {
                 file.createNewFile()
                 val outputFile = FileOutputStream(file)
 
-                //TODO: Use real url
-                //val url = URL(params[0])
-                val url = URL("https://firebasestorage.googleapis.com/v0/b/test-5596f.appspot.com/o/sound.mp3?alt=media&token=06c5e2f3-8217-4bdc-b2ab-6741b9dc4506")
+                val url = URL(params[0])
                 val conn = url.openConnection()
                 val contentLength = conn.contentLength
 

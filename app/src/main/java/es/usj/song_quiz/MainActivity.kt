@@ -14,7 +14,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import es.usj.song_quiz.models.Game
-import es.usj.song_quiz.services.ApiConstants
+import es.usj.song_quiz.services.ApiUrlCreator
 import es.usj.song_quiz.services.AsyncTaskJsonHandler
 import es.usj.song_quiz.utilities.Constants
 import es.usj.song_quiz.utilities.TimeFormatter
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startGame() {
-        AsyncTaskJsonHandler(::handlerJson).execute(ApiConstants.BASE_URL)
+        AsyncTaskJsonHandler(::handlerJson).execute(ApiUrlCreator.createURL("songs.json"))
     }
 
     private fun handlerJson(result: String?) {

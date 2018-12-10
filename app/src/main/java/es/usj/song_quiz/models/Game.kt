@@ -1,7 +1,6 @@
 package es.usj.song_quiz.models
-
 import es.usj.song_quiz.extensions.random
-import es.usj.song_quiz.services.ApiConstants
+import es.usj.song_quiz.services.ApiUrlCreator
 import es.usj.song_quiz.services.DownloadHandler
 import java.io.File
 import java.util.*
@@ -58,15 +57,14 @@ class Game {
     private fun playSongFromFile(filename: String) {
         player.stop()
 
-        //val file = File(directory, filename)
-        val file = File(directory, "sound.mp3")
+        val file = File(directory, filename)
         if (file.exists()) {
             player.playSong(file.absolutePath)
         }
         else {
             //TODO: Contruct real path
-            val path = "$ApiConstants.BASE_URL/$filename"
-            DownloadHandler(directory, ::fileHandler).execute(filename)
+            val path = ApiUrlCreator.createURL(filename)
+            DownloadHandler(directory, ::fileHandler).execute(path)
         }
     }
 
