@@ -29,6 +29,10 @@ class MusicPlayer : MediaPlayer.OnPreparedListener {
         mp?.stop()
     }
 
+    fun release() {
+        mp?.release()
+    }
+
     fun playSong(filename: String) {
         try {
             mp = MediaPlayer()
@@ -45,31 +49,28 @@ class MusicPlayer : MediaPlayer.OnPreparedListener {
 
     val duration : Int
         get() {
-            return mp?.duration as Int
+            if(mp == null) {
+                return  0
+            }
+            return mp!!.duration
         }
 
     val currentPosition : Int
         get() {
-            return mp?.currentPosition as Int
+            if(mp == null) {
+                return  0
+            }
+            return mp!!.currentPosition
         }
 
     override fun onPrepared(mp: MediaPlayer?) {
         mp?.start()
     }
-
-    /*private fun playNextSong() {
-        val song = nextSong()
-        if(song != null) {
-            playSong(song.filename)
-        }
-    }*/
-
+    
     fun nextSong() : Song? {
         currentIndex++
         if (currentIndex < songs.size) {
-            val song = songs[currentIndex]
-
-            return song
+            return  songs[currentIndex]
         }
         return null
     }

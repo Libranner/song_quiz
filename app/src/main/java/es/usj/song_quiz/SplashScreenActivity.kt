@@ -24,6 +24,9 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val mediaPlayer = MediaPlayer.create(this, R.raw.splash_sound)
         mediaPlayer.start()
+        mediaPlayer.setOnCompletionListener {
+            mediaPlayer.release()
+        }
         mediaPlayer.isLooping = false
 
         val view = config.create()
