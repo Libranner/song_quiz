@@ -120,6 +120,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onOptionClick(view: View) {
+        tvTime.text = getString(R.string._00_00)
         playSound(game.checkSong(view.tag as Int))
         tvScore.text = game.score.toString()
         continueGame()
@@ -169,8 +170,6 @@ class MainActivity : AppCompatActivity() {
     private fun setOptions(songs: Array<Song>) {
         if ((linearLayout as LinearLayout).childCount > 0)
             (linearLayout as LinearLayout).removeAllViews()
-
-        Toast.makeText(this, game.currentSong!!.artistName, Toast.LENGTH_LONG).show()
 
         for (i in 0 until songs.size) {
             val btnOption = Button(this)

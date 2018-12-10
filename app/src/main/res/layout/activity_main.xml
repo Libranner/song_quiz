@@ -15,6 +15,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:text="@string/_00_00"
+        android:textColor="@color/colorSecondaryDark"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,24 +45,27 @@
         android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp"
         android:text="@string/_0"
+        android:textColor="@color/colorSecondaryDark"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/btnRestart"
+        style="@android:style/Widget.DeviceDefault.ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:backgroundTint="?android:attr/windowBackground"
         android:contentDescription="@string/speaker"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@mipmap/play_icon" />
 
     <ImageView
         android:id="@+id/ivSpeaker"
@@ -70,12 +74,13 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:background="?android:attr/windowBackground"
         android:contentDescription="@string/speaker"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.114"
-        app:srcCompat="@mipmap/song_quiz_logo" />
+        app:srcCompat="@mipmap/speaker" />
 
 </android.support.constraint.ConstraintLayout>
