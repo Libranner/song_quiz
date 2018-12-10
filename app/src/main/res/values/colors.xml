@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FFAA02</color>
-    <color name="colorPrimaryDark">#FFAA02</color>
+    <color name="colorPrimaryDark">#FF8C01</color>
     <color name="colorSecondaryDark">#007E80</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorButton">#028986</color>
+    <color name="colorWrongAnswer">#f45f42</color>
+    <color name="colorCorrectAnswer">#41f486</color>
 </resources>

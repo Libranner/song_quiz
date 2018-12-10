@@ -1,5 +1,6 @@
 package es.usj.song_quiz
 
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.media.MediaPlayer
 import android.support.v7.app.AppCompatActivity
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var game : Game
     private var songs = arrayOf<Song>()
     private lateinit var timer: TimerTask
+    private lateinit var speakerAnimator: ValueAnimator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +37,21 @@ class MainActivity : AppCompatActivity() {
             cleanup()
             startGame()
             toggleControlVisibility(true)
+            animateSpeaker()
         }
+    }
+
+    private fun animateSpeaker() {
+        speakerAnimator = ValueAnimator.ofFloat(0.8f, 1f)
+        speakerAnimator.addUpdateListener {
+            val value = it.animatedValue as Float
+            btnNextSong.scaleX = value
+            btnNextSong.scaleY = value
+        }
+        speakerAnimator.repeatMode = ValueAnimator.REVERSE
+        speakerAnimator.repeatCount = 10000 //this is the duration
+        speakerAnimator.duration = 300L //this is the speed
+        speakerAnimator.start()
     }
 
     private fun toggleControlVisibility(show: Boolean) {
@@ -102,6 +118,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onOptionClick(view: View) {
+        speakerAnimator.cancel()
         playSound(game.checkSong(view.tag as Int))
         tvScore.text = game.score.toString()
         continueGame()
@@ -144,6 +161,7 @@ class MainActivity : AppCompatActivity() {
 
         tvScore.text = getString(R.string._0)
         tvTime.text = getString(R.string._00_00)
+        toggleControlVisibility(false)
     }
 
     private fun setOptions(songs: Array<Song>) {
@@ -159,6 +177,12 @@ class MainActivity : AppCompatActivity() {
 
             btnOption.text = songs[i].artistName
             btnOption.tag = songs[i].id
+
+            val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 150)
+            lp.setMargins(0, 0, 0, 50)
+            btnOption.layoutParams = lp
+            btnOption.setBackgroundColor(getColor(R.color.colorButton))
+            btnOption.setTextColor(getColor(R.color.colorWhite))
 
             linearLayout.addView(btnOption)
         }
