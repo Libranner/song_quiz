@@ -17,7 +17,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val config = EasySplashScreen(this@SplashScreenActivity)
         config.withBackgroundColor(Color.WHITE)
-        config.withLogo(R.drawable.abc_btn_check_material)
+        config.withLogo(R.mipmap.song_quiz_logo)
         config.withTargetActivity(MainActivity::class.java)
         config.withSplashTimeOut(2500)
         config.withFullScreen()
