@@ -66,7 +66,7 @@ class MusicPlayer : MediaPlayer.OnPreparedListener {
     override fun onPrepared(mp: MediaPlayer?) {
         mp?.start()
     }
-    
+
     fun nextSong() : Song? {
         currentIndex++
         if (currentIndex < songs.size) {

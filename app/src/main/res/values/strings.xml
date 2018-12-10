@@ -6,4 +6,8 @@
     <string name="_0">0</string>
     <string name="problem_loading">Ha ocurrido un problema cargando las canciones.</string>
     <string name="game_over">Game Over!</string>
+    <string name="saved_high_score_key">com.es.usj.song_quiz.score_key</string>
+    <string name="new_high_score">You got a new High Score!</string>
+    <string name="previous_highest_score">Your highest score is: %d</string>
+    <string name="current_score">Your score is: %d</string>
 </resources>
