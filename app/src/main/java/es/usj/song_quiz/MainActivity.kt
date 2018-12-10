@@ -25,30 +25,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val path = "https://firebasestorage.googleapis.com/v0/b/test-5596f.appspot.com/o/sound.mp3?" +
-                "alt=media&token=06c5e2f3-8217-4bdc-b2ab-6741b9dc4506"
-
-
+        
         startGame()
-        /*
-
-        val directory = this.filesDir
-        val file = File(directory, "sound.mp3")
-        if (file.exists()) {
-            Log.e("asdas: ", "asasasasasa")
-        }
-
-        val c = Uri.parse(path)?.lastPathSegment?.let { filename ->
-            File(this.filesDir, filename)
-        }
-
-        val file2 = File(directory, "sound.mp3")
-
-        */
-
-        //DownloadHandler(this.filesDir).execute(path)
-
     }
 
     private fun startGame() {
