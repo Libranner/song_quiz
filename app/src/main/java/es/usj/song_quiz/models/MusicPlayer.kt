@@ -4,17 +4,17 @@ import android.media.MediaPlayer
 import android.util.Log
 import java.io.IOException
 
+@Suppress("UnusedEquals")
 /**
  * Created by libranner on 11/30/18.
  */
-class MusicPlayer {
+class MusicPlayer : MediaPlayer.OnPreparedListener {
     var songs: Array<Song>
-    var mp: MediaPlayer
-    var currentIndex = -1
+    private var mp: MediaPlayer? = null
+    private var currentIndex = -1
 
     constructor(songs: Array<Song>) {
         this.songs = songs
-        this.mp = MediaPlayer()
     }
 
     val currentSong: Song?
@@ -26,21 +26,35 @@ class MusicPlayer {
         }
 
     fun stop() {
-        mp.stop()
+        mp?.stop()
     }
 
     fun playSong(filename: String) {
         try {
             mp = MediaPlayer()
-            mp.setDataSource(filename)
-            mp.prepare()
-            mp.start()
+            mp?.setDataSource(filename)
+            mp?.setOnPreparedListener(this)
+            mp?.prepareAsync();
         } catch (e: IOException) {
             Log.e("Error: ", e.toString())
         }
         catch(e: Exception) {
             Log.e("Error: ", e.toString())
         }
+    }
+
+    val duration : Int
+        get() {
+            return mp?.duration as Int
+        }
+
+    val currentPosition : Int
+        get() {
+            return mp?.currentPosition as Int
+        }
+
+    override fun onPrepared(mp: MediaPlayer?) {
+        mp?.start()
     }
 
     /*private fun playNextSong() {

@@ -35,7 +35,7 @@ class Game {
     }
 
     fun currentDuration() : Int {
-        return player.mp.currentPosition
+        return player.currentPosition
     }
 
     fun playNextSong() {
@@ -105,11 +105,11 @@ class Game {
     private fun calculatePoints() {
         var timePoints: Double
 
-        if(player.mp.currentPosition == 0) {
+        if(player.currentPosition == 0) {
             timePoints = 1.0
         }
         else {
-            timePoints = (player.mp.duration - player.mp.currentPosition).toDouble()/player.mp.currentPosition.toDouble()
+            timePoints = (player.duration - player.currentPosition).toDouble()/player.currentPosition.toDouble()
             timePoints = Math.round(timePoints * 100.0) / 100.0
         }
 
@@ -118,6 +118,6 @@ class Game {
 
     fun stop() {
         finishDate = Calendar.getInstance().time
-        player.mp.stop()
+        player.stop()
     }
 }

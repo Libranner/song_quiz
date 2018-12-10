@@ -91,6 +91,7 @@ class MainActivity : AppCompatActivity() {
         mediaPlayer.start()
         mediaPlayer.isLooping = false
         Thread.sleep(1000)
+        mediaPlayer.stop()
     }
 
 
