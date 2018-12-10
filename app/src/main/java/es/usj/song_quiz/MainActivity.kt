@@ -178,8 +178,10 @@ class MainActivity : AppCompatActivity() {
             btnOption.text = songs[i].artistName
             btnOption.tag = songs[i].id
 
-            val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 150)
-            lp.setMargins(0, 0, 0, 50)
+            val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0)
+            lp.setMargins(0, 0, 0, 20)
+            lp.weight = 1f
+
             btnOption.layoutParams = lp
             btnOption.setBackgroundColor(getColor(R.color.colorButton))
             btnOption.setTextColor(getColor(R.color.colorWhite))
