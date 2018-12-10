@@ -5,4 +5,5 @@
     <string name="_0_0">0/0</string>
     <string name="_0">0</string>
     <string name="problem_loading">Ha ocurrido un problema cargando las canciones.</string>
+    <string name="game_over">Game Over!</string>
 </resources>

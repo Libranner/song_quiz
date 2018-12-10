@@ -13,7 +13,7 @@ import kotlin.collections.ArrayList
 class Game {
     val startDate: Date
     var finishDate: Date? = null
-    var totalPoints = 0
+    var score = 0
     private var player: MusicPlayer
     val numberOfWrongAnswers = 2
     var gameOver = false
@@ -61,7 +61,7 @@ class Game {
         }
         else {
             //TODO: Contruct real path
-            val path = "$ApiConstants.baseUrl/$filename"
+            val path = "$ApiConstants.BASE_URL/$filename"
             DownloadHandler(directory, ::fileHandler).execute(filename)
         }
     }
@@ -112,7 +112,7 @@ class Game {
             timePoints = Math.round(timePoints * 100.0) / 100.0
         }
 
-        totalPoints += (timePoints * 100).toInt()
+        score += (timePoints * 100).toInt()
     }
 
     fun stop() {

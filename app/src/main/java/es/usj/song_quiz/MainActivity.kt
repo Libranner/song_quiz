@@ -1,13 +1,8 @@
 package es.usj.song_quiz
 
-import android.app.DownloadManager
-import android.app.Service
-import android.content.Context
-import android.net.Uri
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.view.View
 import es.usj.song_quiz.models.Song
 import kotlinx.android.synthetic.main.activity_main.*
@@ -16,13 +11,11 @@ import kotlin.collections.ArrayList
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.TextView
 import es.usj.song_quiz.models.Game
 import es.usj.song_quiz.services.ApiConstants
 import es.usj.song_quiz.services.AsyncTaskJsonHandler
-import es.usj.song_quiz.services.DownloadHandler
+import es.usj.song_quiz.utilities.Constants
 import org.json.JSONArray
-import java.io.File
 import java.util.*
 import kotlin.concurrent.scheduleAtFixedRate
 
@@ -32,8 +25,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
 
         val path = "https://firebasestorage.googleapis.com/v0/b/test-5596f.appspot.com/o/sound.mp3?" +
                 "alt=media&token=06c5e2f3-8217-4bdc-b2ab-6741b9dc4506"
@@ -61,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startGame() {
-        AsyncTaskJsonHandler(::handlerJson).execute(ApiConstants.baseUrl)
+        AsyncTaskJsonHandler(::handlerJson).execute(ApiConstants.BASE_URL)
     }
 
     private fun handlerJson(result: String?) {
@@ -114,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         else {
             Toast.makeText(this, "Wrong answer! You dumb bastard!", Toast.LENGTH_SHORT).show()
         }
-        tvScore.text = game.totalPoints.toString()
+        tvScore.text = game.score.toString()
         continueGame()
     }
 
@@ -122,15 +113,17 @@ class MainActivity : AppCompatActivity() {
         game.playNextSong()
 
         if (game.gameOver) {
-            game.stop()
+            showGameOverScreen()
         } else {
             setOptions(game.possibleAnswers())
         }
     }
 
     private fun showGameOverScreen() {
-        //TODO: Game Over Screen
-        Toast.makeText(this, "GAME OVER", Toast.LENGTH_LONG).show()
+        game.stop()
+        val intent = Intent(this, GameOverActivity::class.java)
+        intent.putExtra(Constants.SCORE_KEY, game.score)
+        startActivity(intent)
     }
 
     private fun setOptions(songs: Array<Song>) {
