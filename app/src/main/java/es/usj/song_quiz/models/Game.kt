@@ -93,6 +93,7 @@ class Game {
     }
 
     fun checkSong(selectedId: Int) : Boolean {
+        player.stop()
         if (currentSong?.id == selectedId) {
             calculatePoints()
             return true
