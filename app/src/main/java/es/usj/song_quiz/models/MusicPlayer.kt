@@ -74,4 +74,12 @@ class MusicPlayer : MediaPlayer.OnPreparedListener {
         }
         return null
     }
+
+    val isPlaying: Boolean
+        get() {
+            if(mp == null) {
+                return  false
+            }
+            return mp!!.isPlaying
+        }
 }

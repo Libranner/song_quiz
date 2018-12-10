@@ -7,24 +7,10 @@
     tools:context="es.usj.song_quiz.MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
-    <ImageButton
-        android:id="@+id/btnNextSong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="100dp"
-        android:contentDescription="@string/play"
-        app:layout_constraintBottom_toTopOf="@+id/tvTime"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
-
     <TextView
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="87dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
@@ -33,7 +19,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnNextSong" />
+        app:layout_constraintTop_toBottomOf="@+id/ivSpeaker" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -42,6 +28,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="50dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,10 +56,26 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:contentDescription="@string/speaker"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background" />
+
+    <ImageView
+        android:id="@+id/ivSpeaker"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/speaker"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.114"
+        app:srcCompat="@mipmap/song_quiz_logo" />
 
 </android.support.constraint.ConstraintLayout>

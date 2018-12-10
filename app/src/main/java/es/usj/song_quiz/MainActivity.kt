@@ -45,8 +45,8 @@ class MainActivity : AppCompatActivity() {
         speakerAnimator = ValueAnimator.ofFloat(0.8f, 1f)
         speakerAnimator.addUpdateListener {
             val value = it.animatedValue as Float
-            btnNextSong.scaleX = value
-            btnNextSong.scaleY = value
+            ivSpeaker.scaleX = value
+            ivSpeaker.scaleY = value
         }
         speakerAnimator.repeatMode = ValueAnimator.REVERSE
         speakerAnimator.repeatCount = 10000 //this is the duration
@@ -56,16 +56,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun toggleControlVisibility(show: Boolean) {
         if(show) {
-            btnNextSong.visibility = View.VISIBLE
+            ivSpeaker.visibility = View.VISIBLE
             linearLayout.visibility = View.VISIBLE
             btnRestart.visibility = View.GONE
             tvScore.visibility = View.VISIBLE
+            tvTime.visibility = View.VISIBLE
         }
         else {
-            btnNextSong.visibility = View.GONE
+            ivSpeaker.visibility = View.GONE
             linearLayout.visibility = View.GONE
             btnRestart.visibility = View.VISIBLE
             tvScore.visibility = View.GONE
+            tvTime.visibility = View.GONE
         }
     }
 
@@ -118,7 +120,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onOptionClick(view: View) {
-        speakerAnimator.cancel()
         playSound(game.checkSong(view.tag as Int))
         tvScore.text = game.score.toString()
         continueGame()
@@ -148,6 +149,7 @@ class MainActivity : AppCompatActivity() {
     private fun showGameOverScreen() {
         game.stop()
         timer.cancel()
+        speakerAnimator.cancel()
 
         val intent = Intent(this, GameOverActivity::class.java)
         intent.putExtra(Constants.SCORE_KEY, game.score)

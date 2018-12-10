@@ -38,6 +38,10 @@ class Game {
         return player.currentPosition
     }
 
+    fun isPlayingSong() : Boolean {
+        return player.isPlaying
+    }
+
     fun playNextSong() {
         if(gameOver)
             return
