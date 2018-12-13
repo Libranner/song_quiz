@@ -3,6 +3,7 @@ package es.usj.song_quiz
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import es.usj.song_quiz.R
 
 class AboutActivity : AppCompatActivity() {
@@ -26,5 +27,12 @@ class AboutActivity : AppCompatActivity() {
           animate().alpha(1f).setDuration(shortAnimationDuration.toLong()).setListener(null)
         }
 
+        val btnBack: Button = findViewById(R.id.button2)
+        btnBack.setOnClickListener{
+            finish()
         }
+
+        }
+
+
 }
