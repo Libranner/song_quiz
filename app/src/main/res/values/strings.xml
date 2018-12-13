@@ -11,4 +11,10 @@
     <string name="previous_highest_score">Your highest score is: %d</string>
     <string name="current_score">Your score is: %d</string>
     <string name="speaker">speaker</string>
+    <string name="libranner_santos">Libranner Santos</string>
+    <string name="clary_morla">Clary Morla</string>
+    <string name="logo">logo</string>
+    <string name="logo_usj">logo USJ</string>
+    <string name="developers">Developers</string>
+    <string name="app_description">App Description</string>
 </resources>
