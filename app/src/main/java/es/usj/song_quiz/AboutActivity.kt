@@ -1,4 +1,4 @@
-package es.usj.song_quiz.utilities
+package es.usj.song_quiz
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
