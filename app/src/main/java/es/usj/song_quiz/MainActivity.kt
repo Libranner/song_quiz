@@ -40,6 +40,12 @@ class MainActivity : AppCompatActivity() {
             toggleControlVisibility(true)
             animateSpeaker()
         }
+
+        val btnAbout: Button = findViewById(R.id.button)
+        btnAbout.setOnClickListener{
+            val about = Intent(this, AboutActivity::class.java)
+            startActivity(about)
+        }
     }
 
     private fun animateSpeaker() {
@@ -62,6 +68,7 @@ class MainActivity : AppCompatActivity() {
             btnRestart.visibility = View.GONE
             tvScore.visibility = View.VISIBLE
             tvTime.visibility = View.VISIBLE
+            button.visibility = View.GONE
         }
         else {
             ivSpeaker.visibility = View.GONE
@@ -69,6 +76,7 @@ class MainActivity : AppCompatActivity() {
             btnRestart.visibility = View.VISIBLE
             tvScore.visibility = View.GONE
             tvTime.visibility = View.GONE
+            button.visibility = View.VISIBLE
         }
     }
 
