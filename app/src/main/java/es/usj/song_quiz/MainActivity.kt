@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.Toast
 import kotlin.collections.ArrayList
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.LinearLayout
 import es.usj.song_quiz.models.Game
@@ -174,7 +175,11 @@ class MainActivity : AppCompatActivity() {
         for (i in 0 until songs.size) {
             val btnOption = Button(this)
             btnOption.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            btnOption.setOnClickListener({ onOptionClick(btnOption) })
+            btnOption.setOnClickListener({
+                onOptionClick(btnOption)
+                val animation = AnimationUtils.loadAnimation(this@MainActivity, R.anim.fade)
+                linearLayout.startAnimation(animation)
+            })
 
             btnOption.text = songs[i].artistName
             btnOption.tag = songs[i].id
