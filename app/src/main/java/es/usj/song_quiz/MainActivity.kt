@@ -183,11 +183,9 @@ class MainActivity : AppCompatActivity() {
         for (i in 0 until songs.size) {
             val btnOption = Button(this)
             btnOption.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            btnOption.setOnClickListener({
+            btnOption.setOnClickListener {
                 onOptionClick(btnOption)
-                val animation = AnimationUtils.loadAnimation(this@MainActivity, R.anim.fade)
-                linearLayout.startAnimation(animation)
-            })
+            }
 
             btnOption.text = songs[i].artistName
             btnOption.tag = songs[i].id
@@ -201,6 +199,9 @@ class MainActivity : AppCompatActivity() {
             btnOption.setTextColor(getColor(R.color.colorWhite))
 
             linearLayout.addView(btnOption)
+            val animation = AnimationUtils.loadAnimation(this@MainActivity, R.anim.fade)
+            linearLayout.startAnimation(animation)
+            tvTime.startAnimation(animation)
         }
     }
 }
