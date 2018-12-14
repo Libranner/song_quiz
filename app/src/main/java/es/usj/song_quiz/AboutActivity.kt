@@ -16,7 +16,7 @@ class AboutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
 
-        mContent = findViewById(R.id.view1)
+        mContent = findViewById(R.id.layout)
         mContent.visibility = View.GONE
         shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
 
@@ -27,12 +27,9 @@ class AboutActivity : AppCompatActivity() {
           animate().alpha(1f).setDuration(shortAnimationDuration.toLong()).setListener(null)
         }
 
-        val btnBack: Button = findViewById(R.id.button2)
+        val btnBack: Button = findViewById(R.id.btnBack)
         btnBack.setOnClickListener{
             finish()
         }
-
-        }
-
-
+    }
 }

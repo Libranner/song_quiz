@@ -16,5 +16,6 @@
     <string name="logo">logo</string>
     <string name="logo_usj">logo USJ</string>
     <string name="developers">Developers</string>
-    <string name="app_description">App Description</string>
+    <string name="app_description">Juego para adivinar quien canta la canción</string>
+    <string name="back">Back</string>
 </resources>
